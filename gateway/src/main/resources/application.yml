@@ -1,0 +1,21 @@
+server:
+  port: 8046
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: controller
+          uri: http://127.0.0.1:9080/
+          predicates:
+            - Path=/controller/**
+          filters:
+            - RewritePath=/controller/(?<path>.*), /$\{path}
+        - id: scheduler
+          uri: http://127.0.0.1:9081/
+          predicates:
+            - Path=/scheduler/**
+          filters:
+            - RewritePath=/scheduler/(?<path>.*), /$\{path}
